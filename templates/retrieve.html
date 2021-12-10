@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Library</title>
+    <title>Title</title>
 </head>
 <body>
-<h1>My Library</h1>
-    {% if books == []: %}
-        <p>Library is empty.</p>
-    {% endif %}
-    <ul>
-        {% for book in books %}
-        <li>{{book.title}} - {{book.rating}}/10</li>
-        {% endfor %}
-    </ul>
-
-<a href="{{ url_for('home') }}">Home</a>
+    <form action="{{ url_for('retrieve')}}" method="POST">
+        <p>Book Name: {{ book.title }}</p>
+        <p>Current Rating: {{ book.rating }}</p>
+        <input hidden="hidden" name="id" value="{{book.id}}">
+        <input name="rating" type="text">
+        <button type="submit">Change Rating</button>
+    </form>
 </body>
 </html>

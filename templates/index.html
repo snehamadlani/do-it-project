@@ -5,7 +5,16 @@
     <title>Library</title>
 </head>
 <body>
-    <a href="{{ url_for('add') }}">Add New Book</a>
-    <a href="{{ url_for('retrieve') }}">Retrieve All Books</a>
+<h1>My Library</h1>
+        {% if books == []: %}
+        <p>Library is empty</p>
+        {% endif %}
+    <ul>
+        {% for book in books %}
+        <li>{{ book.title }} - {{ book.rating }}/10 <a href="{{ url_for('retrieve', id=book.id) }}">Edit Rating</a></li>
+        {% endfor %}
+    </ul>
+
+<a href="{{ url_for('add') }}">Add New Book</a>
 </body>
 </html>

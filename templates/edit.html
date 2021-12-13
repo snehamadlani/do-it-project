@@ -30,17 +30,24 @@
 </nav>
 {% endblock %}
 
-{% block title %}Library{% endblock %}
+{% block title %}Edit Book{% endblock %}
 
 {% block content %}
 
-<div class="jumbotron text-center">
-    <div class="container">
-  <h1 class="display-4">📚 Library 💻</h1>
-  <hr class="my-4">
-  <p>Checkout my collection of books and their ratings</p>
-  <a class="btn btn-warning btn-lg" href="{{ url_for('books') }}" role="button">Show Me!</a>
-</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+        <h1 class="display-4">Edit {{ book.title }}</h1>
+        <hr class="my-4">
+        <form action="{{ url_for('edit')}}" method="POST">
+            <p>Book Name: {{ book.title }}</p>
+            <p>Current Rating: {{ book.rating }}</p>
+            <input hidden="hidden" name="id" value="{{book.id}}">
+            <input style="color: black" style="color: black"name="rating" type="number">
+            <button class="btn btn-warning btn-md" type="submit">Change Rating</button>
+        </form>
     </div>
+  </div>
+</div>
 
 {% endblock %}

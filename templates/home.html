@@ -1,4 +1,4 @@
-{% extends 'bootstrap/base.html' %}
+{% extends "bootstrap/base.html" %}
 
 {% block styles %}
 {{super()}}
@@ -30,17 +30,13 @@
 </nav>
 {% endblock %}
 
-{% block title %}Library{% endblock %}
-
 {% block content %}
 
-<div class="jumbotron text-center">
-    <div class="container">
-  <h1 class="display-4">📚 Library 💻</h1>
-  <hr class="my-4">
-  <p>Checkout my collection of books and their ratings</p>
-  <a class="btn btn-warning btn-lg" href="{{ url_for('books') }}" role="button">Show Me!</a>
+<div class="box">
+    {% if not logged_in: %}
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-block btn-large">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-block btn-large">Register</a>
+    {% endif %}
 </div>
-    </div>
 
 {% endblock %}

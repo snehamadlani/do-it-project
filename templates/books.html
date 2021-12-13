@@ -30,17 +30,43 @@
 </nav>
 {% endblock %}
 
-{% block title %}Library{% endblock %}
+{% block title %}Books{% endblock %}
 
 {% block content %}
 
-<div class="jumbotron text-center">
-    <div class="container">
-  <h1 class="display-4">📚 Library 💻</h1>
-  <hr class="my-4">
-  <p>Checkout my collection of books and their ratings</p>
-  <a class="btn btn-warning btn-lg" href="{{ url_for('books') }}" role="button">Show Me!</a>
-</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h1>All Books</h1>
+
+	  <table class="table">
+          <!-- render a Bootstrap Table that contains all the information from the db -->
+        <th> Book name </th>
+        <th> Rating </th>
+        {% if current_user.email == "admin@email.com": %}
+          <th> Edit </th>
+        {% endif %}
+        {% for book in books: %}
+          <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.rating }}</td>
+            <!-- If user name is admin then they can see the delete button -->
+            {% if current_user.email == "admin@email.com": %}
+              <td><a href="{{ url_for('edit', id=book.id) }}">Edit Rating</a></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+  	  </table>
+
+
+      <p><a href="{{ url_for('home') }}">Return to index page</a></p>
+      {% if current_user.email == "admin@email.com": %}
+        <p><a href="{{ url_for('add') }}">Add a book</a></p>
+      {% endif %}
+
     </div>
+  </div>
+</div>
 
 {% endblock %}

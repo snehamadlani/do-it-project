@@ -1,16 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Book</title>
-</head>
-<body>
-    <form action="{{ url_for('add') }}" method="POST">
-        <label>Book Name</label>
-        <input name="title" type="text">
-        <label>Rating</label>
-        <input name="rating" type="text">
-        <button type="submit">Add Book</button>
-    </form>
-</body>
-</html>
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{url_for('.static', filename='css/styles.css')}}">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+      </li>
+       {% if current_user.is_authenticated: %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+            </li>
+       {% else: %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+            </li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+        <h1 class="display-4">Add a Book</h1>
+        <hr class="my-4">
+        <form action="{{ url_for('add') }}" method="POST">
+            <label>Book Name</label>
+            <input style="color: black" name="title" type="text">
+            <br>
+            <br>
+            <label>Rating</label>
+            <input style="color: black" name="rating" type="number">
+            <br>
+            <br>
+            <button class="btn btn-warning btn-lg" type="submit">Submit</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

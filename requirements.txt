@@ -11,3 +11,4 @@ Werkzeug==2.0.2
 WTForms==3.0.0
 flask-wtf==1.0.0
 flask_bootstrap==3.3.7.1
+flask_login==0.5.0

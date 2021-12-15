@@ -13,7 +13,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
       </li>
-       {% if current_user.is_authenticated: %}
+       {% if logged_in: %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
             </li>
@@ -38,8 +38,12 @@
     <div class="container">
   <h1 class="display-4">📚 Library 💻</h1>
   <hr class="my-4">
-  <p>Checkout my collection of books and their ratings</p>
-  <a class="btn btn-warning btn-lg" href="{{ url_for('books') }}" role="button">Show Me!</a>
+  <p>Check out my collection of books and their ratings</p>
+  {% if logged_in: %}
+    <a class="btn btn-warning btn-lg" href="{{ url_for('books') }}" role="button">Show Me!</a>
+  {% else: %}
+    <a class="btn btn-warning btn-lg" href="{{ url_for('home2') }}" role="button">Show Me!</a>
+  {% endif %}
 </div>
     </div>
 

@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, URL
+from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,12 +12,13 @@ from flask import abort
 app = Flask(__name__)
 Bootstrap(app)
 
-# CREATE DATABASE
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
+# CREATE DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///books.db"
 # silence the deprecation warning in the console.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -72,7 +73,7 @@ def admin_only(f):
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template("index.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/home')
@@ -87,7 +88,7 @@ def books():
 
 
 @app.route("/add", methods=["GET", "POST"])
-# Mark with decorator
+# Only admin can access
 @admin_only
 def add():
     if request.method == "POST":
@@ -106,7 +107,7 @@ def add():
 
 
 @app.route('/edit', methods=['GET', 'POST'])
-# Mark with decorator
+# Only admin can access
 @admin_only
 def edit():
     if request.method == 'POST':
@@ -138,6 +139,7 @@ def register():
             method='pbkdf2:sha256',
             salt_length=8
         )
+        # Create record of User in DB
         new_user = User(
             email=form.email.data,
             name=form.name.data,
@@ -148,7 +150,7 @@ def register():
 
         return redirect(url_for("home"))
 
-    return render_template("register.html", form=form)
+    return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -169,8 +171,8 @@ def login():
             return redirect(url_for('login'))
         else:
             login_user(user)
-            return redirect(url_for('home'))
-    return render_template("login.html", form=form)
+            return redirect(url_for('books'))
+    return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
 
 
 @app.route('/logout')
